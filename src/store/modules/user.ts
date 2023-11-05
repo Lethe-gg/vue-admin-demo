@@ -11,11 +11,14 @@ import { UserInfo } from "@/api/user/types";
 import { useStorage } from "@vueuse/core";
 
 export const useUserStore = defineStore("user", () => {
-  const user: UserInfo = {
+  // const user: UserInfo = {
+  //   roles: [],
+  //   perms: [],
+  // };
+  const user = ref<UserInfo>({
     roles: [],
     perms: [],
-  };
-
+  });
   const token = useStorage("accessToken", "");
 
   /**
@@ -51,7 +54,7 @@ export const useUserStore = defineStore("user", () => {
             reject("getUserInfo: roles must be a non-null array!");
             return;
           }
-          Object.assign(user, { ...data });
+          Object.assign(user.value, { ...data });
           resolve(data);
         })
         .catch((error) => {
