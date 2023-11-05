@@ -210,9 +210,9 @@ function checkCapslock(e: any) {
  */
 function getCaptcha() {
   getCaptchaApi().then(({ data }) => {
-    const { verifyCodeBase64, verifyCodeKey } = data;
+    const { captchaImgBase64, verifyCodeKey } = data;
     loginData.value.verifyCodeKey = verifyCodeKey;
-    captchaBase64.value = verifyCodeBase64;
+    captchaBase64.value = captchaImgBase64;
   });
 }
 

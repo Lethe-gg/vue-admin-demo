@@ -47,25 +47,25 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       port: Number(env.VITE_APP_PORT),
       // 运行是否自动打开浏览器
       open: true,
-      proxy: {
-        /**
-         * 反向代理解决跨域配置
-         * http://localhost:3000/dev-api/users (F12可见请求路径) => http://localhost:8989/users (实际请求后端 API 路径)
-         *
-         * env.VITE_APP_BASE_API: /dev-api
-         * env.VITE_APP_TARGET_URL: http://localhost:8989
-         * env.VITE_APP_TARGET_BASE_API: ""
-         */
-        [env.VITE_APP_BASE_API]: {
-          changeOrigin: true,
-          target: env.VITE_APP_TARGET_URL,
-          rewrite: (path) =>
-            path.replace(
-              new RegExp("^" + env.VITE_APP_BASE_API),
-              env.VITE_APP_TARGET_BASE_API
-            ),
-        },
-      },
+      // proxy: {
+      //   /**
+      //    * 反向代理解决跨域配置
+      //    * http://localhost:3000/dev-api/users (F12可见请求路径) => http://localhost:8989/users (实际请求后端 API 路径)
+      //    *
+      //    * env.VITE_APP_BASE_API: /dev-api
+      //    * env.VITE_APP_TARGET_URL: http://localhost:8989
+      //    * env.VITE_APP_TARGET_BASE_API: ""
+      //    */
+      //   [env.VITE_APP_BASE_API]: {
+      //     changeOrigin: true,
+      //     target: env.VITE_APP_TARGET_URL,
+      //     rewrite: (path) =>
+      //       path.replace(
+      //         new RegExp("^" + env.VITE_APP_BASE_API),
+      //         env.VITE_APP_TARGET_BASE_API
+      //       ),
+      //   },
+      // },
     },
     plugins: [
       vue(),
