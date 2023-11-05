@@ -397,6 +397,44 @@ const data = {
         },
       ],
     },
+    {
+      path: "/order",
+      component: "Layout",
+      redirect: "/order/userorder",
+      meta: {
+        title: "订单系统",
+        icon: "system",
+        hidden: false,
+        roles: ["ADMIN"],
+        keepAlive: true,
+      },
+      children: [
+        {
+          path: "userorder",
+          component: "order/user/index",
+          name: "Userorder",
+          meta: {
+            title: "用户订单",
+            icon: "user",
+            hidden: false,
+            roles: ["ADMIN"],
+            keepAlive: true,
+          },
+        },
+        {
+          path: "mgrorder",
+          component: "order/mgr/index",
+          name: "mgrorder",
+          meta: {
+            title: "管理员订单",
+            icon: "user",
+            hidden: false,
+            roles: ["ADMIN"],
+            keepAlive: true,
+          },
+        },
+      ],
+    },
   ],
   msg: "一切ok",
 };
