@@ -8,12 +8,12 @@ const data = {
       path: "/system",
       component: "Layout",
       redirect: "/system/user",
+      name: "/system",
       meta: {
         title: "系统管理",
         icon: "system",
         hidden: false,
         roles: ["ADMIN"],
-        keepAlive: true,
       },
       children: [
         {
@@ -67,7 +67,7 @@ const data = {
         {
           path: "dict",
           component: "system/dict/index",
-          name: "DictType",
+          name: "Dict",
           meta: {
             title: "字典管理",
             icon: "dict",
@@ -78,49 +78,49 @@ const data = {
         },
       ],
     },
-
     {
       path: "/api",
       component: "Layout",
+      name: "/api",
       meta: {
-        title: "接口",
+        title: "接口文档",
         icon: "api",
         hidden: false,
         roles: ["ADMIN"],
-        keepAlive: true,
+        alwaysShow: true,
       },
       children: [
         {
-          path: "apidoc",
-          component: "demo/api-doc",
-          name: "Apidoc",
+          path: "apifox",
+          component: "demo/api/apifox",
+          name: "Apifox",
           meta: {
-            title: "接口文档",
+            title: "Apifox",
             icon: "api",
             hidden: false,
             roles: ["ADMIN"],
-            keepAlive: false,
+            keepAlive: true,
           },
         },
-      ],
-    },
-    {
-      path: "/external-link",
-      component: "Layout",
-      redirect: "noredirect",
-      meta: {
-        title: "外部链接",
-        icon: "link",
-        hidden: false,
-        roles: ["ADMIN"],
-        keepAlive: true,
-      },
-      children: [
         {
-          path: "https://juejin.cn/post/7228990409909108793",
+          path: "swagger",
+          component: "demo/api/swagger",
+          name: "Swagger",
           meta: {
-            title: "document",
-            icon: "document",
+            title: "Swagger",
+            icon: "api",
+            hidden: false,
+            roles: ["ADMIN"],
+            keepAlive: true,
+          },
+        },
+        {
+          path: "knife4j",
+          component: "demo/api/knife4j",
+          name: "Knife4j",
+          meta: {
+            title: "Knife4j",
+            icon: "api",
             hidden: false,
             roles: ["ADMIN"],
             keepAlive: true,
@@ -129,21 +129,56 @@ const data = {
       ],
     },
     {
+      path: "/doc",
+      component: "Layout",
+      name: "/doc",
+      meta: {
+        title: "平台文档",
+        icon: "document",
+        hidden: false,
+        roles: ["ADMIN"],
+      },
+      children: [
+        {
+          path: "internal-doc",
+          component: "demo/internal-doc",
+          name: "InternalDoc",
+          meta: {
+            title: "平台文档(内嵌)",
+            icon: "document",
+            hidden: false,
+            roles: ["ADMIN"],
+          },
+        },
+        {
+          path: "https://juejin.cn/post/7228990409909108793",
+          name: "Https://juejin.cn/post/7228990409909108793",
+          meta: {
+            title: "平台文档(外链)",
+            icon: "link",
+            hidden: false,
+            roles: ["ADMIN"],
+          },
+        },
+      ],
+    },
+    {
       path: "/multi-level",
       component: "Layout",
       redirect: "/multi-level/multi-level1",
+      name: "/multiLevel",
       meta: {
         title: "多级菜单",
-        icon: "multi_level",
+        icon: "cascader",
         hidden: false,
         roles: ["ADMIN"],
-        keepAlive: true,
       },
       children: [
         {
           path: "multi-level1",
           component: "demo/multi-level/level1",
           redirect: "/multi-level/multi-level2",
+          name: "MultiLevel1",
           meta: {
             title: "菜单一级",
             icon: "",
@@ -156,6 +191,7 @@ const data = {
               path: "multi-level2",
               component: "demo/multi-level/children/level2",
               redirect: "/multi-level/multi-level2/multi-level3-1",
+              name: "MultiLevel2",
               meta: {
                 title: "菜单二级",
                 icon: "",
@@ -195,20 +231,69 @@ const data = {
       ],
     },
     {
+      path: "/table",
+      component: "Layout",
+      name: "/table",
+      meta: {
+        title: "Table",
+        icon: "table",
+        hidden: true,
+        roles: ["ADMIN"],
+      },
+      children: [
+        {
+          path: "dynamic-table",
+          component: "table/dynamic-table/index",
+          name: "DynamicTable",
+          meta: {
+            title: "动态Table",
+            icon: "",
+            hidden: true,
+            roles: ["ADMIN"],
+            keepAlive: true,
+          },
+        },
+        {
+          path: "drag-table",
+          component: "table/drag-table",
+          name: "DragTable",
+          meta: {
+            title: "拖拽Table",
+            icon: "",
+            hidden: true,
+            roles: ["ADMIN"],
+            keepAlive: true,
+          },
+        },
+        {
+          path: "complex-table",
+          component: "table/complex-table",
+          name: "ComplexTable",
+          meta: {
+            title: "综合Table",
+            icon: "",
+            hidden: true,
+            roles: ["ADMIN"],
+            keepAlive: true,
+          },
+        },
+      ],
+    },
+    {
       path: "/component",
       component: "Layout",
+      name: "/component",
       meta: {
         title: "组件封装",
         icon: "menu",
         hidden: false,
         roles: ["ADMIN"],
-        keepAlive: true,
       },
       children: [
         {
           path: "wang-editor",
           component: "demo/wang-editor",
-          name: "wang-editor",
+          name: "WangEditor",
           meta: {
             title: "富文本编辑器",
             icon: "",
@@ -220,7 +305,7 @@ const data = {
         {
           path: "upload",
           component: "demo/upload",
-          name: "upload",
+          name: "Upload",
           meta: {
             title: "图片上传",
             icon: "",
@@ -232,7 +317,7 @@ const data = {
         {
           path: "icon-selector",
           component: "demo/icon-selector",
-          name: "icon-selector",
+          name: "IconSelector",
           meta: {
             title: "图标选择器",
             icon: "",
@@ -254,21 +339,9 @@ const data = {
           },
         },
         {
-          path: "taginput",
-          component: "demo/taginput",
-          name: "taginput",
-          meta: {
-            title: "标签输入框",
-            icon: "",
-            hidden: false,
-            roles: ["ADMIN"],
-            keepAlive: true,
-          },
-        },
-        {
           path: "signature",
           component: "demo/signature",
-          name: "signature",
+          name: "Signature",
           meta: {
             title: "签名",
             icon: "",
@@ -284,52 +357,6 @@ const data = {
           meta: {
             title: "表格",
             icon: "",
-            hidden: false,
-            roles: ["ADMIN"],
-            keepAlive: true,
-          },
-        },
-      ],
-    },
-    {
-      path: "/table",
-      component: "Layout",
-      meta: {
-        title: "Table",
-        icon: "table",
-        hidden: false,
-        roles: ["ADMIN"],
-        keepAlive: true,
-      },
-      children: [
-        {
-          path: "dynamic-table",
-          component: "demo/table/dynamic-table/index",
-          name: "DynamicTable",
-          meta: {
-            title: "动态Table",
-            hidden: false,
-            roles: ["ADMIN"],
-            keepAlive: true,
-          },
-        },
-        {
-          path: "drag-table",
-          component: "demo/table/drag-table",
-          name: "DragTable",
-          meta: {
-            title: "拖拽Table",
-            hidden: false,
-            roles: ["ADMIN"],
-            keepAlive: true,
-          },
-        },
-        {
-          path: "complex-table",
-          component: "demo/table/complex-table",
-          name: "ComplexTable",
-          meta: {
-            title: "综合Table",
             hidden: false,
             roles: ["ADMIN"],
             keepAlive: true,
@@ -436,6 +463,7 @@ const data = {
       ],
     },
   ],
+
   msg: "一切ok",
 };
 
