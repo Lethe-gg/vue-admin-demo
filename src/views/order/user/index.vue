@@ -1,40 +1,54 @@
 <script setup lang="ts">
-import { RolePageVO, RoleForm, RoleQuery } from "@/api/role/types";
-
+// import { RolePageVO, RoleForm, RoleQuery } from "@/api/role/types";
+import { useUserStoreHook } from "@/store/modules/user";
 import { UserQuery } from "@/api/user/types";
+const userStore = useUserStoreHook();
 const queryFormRef = ref(ElForm);
 const queryParams = reactive<UserQuery>({
   pageNum: 1,
   pageSize: 10,
 });
 const loading = ref(false);
+const total = ref(0);
 const orderData = ref([
   {
-    orderId: 1,
+    orderId: 0,
     creater: "13900000001",
     status: "1",
     creatTime: "2023-22-00 14:00:00",
   },
-  {
-    orderId: 2,
-    creater: "13900000002",
-    status: "2",
-    creatTime: "2023-22-00 14:00:00",
-  },
-  {
-    orderId: 3,
-    creater: "13900000003",
-    status: "3",
-    creatTime: "2023-22-00 14:00:00",
-  },
-  {
-    orderId: 4,
-    creater: "13900000004",
-    status: "4",
-    creatTime: "2023-22-00 14:00:00",
-  },
 ]);
 const dateTimeRange = ref("");
+const dialog = reactive<DialogOption>({
+  visible: false,
+  title: "新增订单",
+});
+const roleFormRef = ref(ElForm);
+interface formDataItem {
+  creater: number;
+  user: string;
+  createTime: Date;
+  status: string;
+}
+const formData: formDataItem = reactive({
+  creater: userStore.user.userId as number,
+  user: "",
+  createTime: new Date(),
+  status: "",
+});
+const rules = reactive({
+  user: [
+    { required: true, message: "请输入使用人", trigger: "blur" },
+    {
+      pattern:
+        /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/,
+      message: "格式不正确",
+      trigger: "blur",
+    },
+  ],
+  createTime: [{ required: true, message: "请选择创建时间", trigger: "blur" }],
+  status: [{ required: true, message: "请选择状态", trigger: "blur" }],
+});
 watch(dateTimeRange, (newVal) => {
   if (newVal) {
     queryParams.startTime = newVal[0];
@@ -45,8 +59,102 @@ watch(dateTimeRange, (newVal) => {
 const disabledDate = (time: Date) => {
   return time.getTime() > Date.now();
 };
-function handleQuery() {}
-function openDialog() {}
+function handleQuery() {
+  loading.value = true;
+  setTimeout(() => {
+    orderData.value = [
+      {
+        orderId: 0,
+        creater: "13900000001",
+        status: "1",
+        creatTime: "2023-22-00 14:00:00",
+      },
+      {
+        orderId: 1,
+        creater: "13900000002",
+        status: "2",
+        creatTime: "2023-22-00 14:00:00",
+      },
+      {
+        orderId: 2,
+        creater: "13900000003",
+        status: "3",
+        creatTime: "2023-22-00 14:00:00",
+      },
+      {
+        orderId: 3,
+        creater: "13900000004",
+        status: "4",
+        creatTime: "2023-22-00 14:00:00",
+      },
+      {
+        orderId: 4,
+        creater: "13900000001",
+        status: "1",
+        creatTime: "2023-22-00 14:00:00",
+      },
+      {
+        orderId: 5,
+        creater: "13900000002",
+        status: "2",
+        creatTime: "2023-22-00 14:00:00",
+      },
+      {
+        orderId: 6,
+        creater: "13900000003",
+        status: "3",
+        creatTime: "2023-22-00 14:00:00",
+      },
+      {
+        orderId: 7,
+        creater: "13900000004",
+        status: "4",
+        creatTime: "2023-22-00 14:00:00",
+      },
+      {
+        orderId: 8,
+        creater: "13900000001",
+        status: "1",
+        creatTime: "2023-22-00 14:00:00",
+      },
+      {
+        orderId: 9,
+        creater: "13900000002",
+        status: "2",
+        creatTime: "2023-22-00 14:00:00",
+      },
+    ];
+    total.value = orderData.value.length;
+    loading.value = false;
+  }, 1000);
+}
+function handleSubmit() {
+  loading.value = true;
+  setTimeout(() => {
+    loading.value = false;
+    orderData.value.push({
+      orderId: orderData.value.length + 1,
+      creater: formData.user,
+      status: "1",
+      creatTime: "2023-22-00 14:00:00",
+    });
+    closeDialog();
+    ElMessage({
+      message: "Congrats, this is a success message.",
+      type: "success",
+    });
+    total.value = orderData.value.length;
+  }, 500);
+}
+function openDialog() {
+  dialog.visible = true;
+}
+function closeDialog() {
+  dialog.visible = false;
+}
+onMounted(() => {
+  handleQuery();
+});
 </script>
 
 <template>
@@ -56,7 +164,7 @@ function openDialog() {}
         <el-form-item label="关键字" prop="keywords">
           <el-input
             v-model="queryParams.keywords"
-            placeholder="Please input"
+            placeholder="请输入订单编号"
             clearable
             style="width: 200px"
             @keyup.enter="handleQuery"
@@ -144,6 +252,66 @@ function openDialog() {}
           </template>
         </el-table-column>
       </el-table>
+      <!-- 分页 -->
+      <pagination
+        v-if="1"
+        v-model:total="total"
+        v-model:page="queryParams.pageNum"
+        v-model:limit="queryParams.pageSize"
+        @pagination="handleQuery"
+      />
+      <!-- 新增订单弹窗 -->
+      <el-dialog
+        v-model="dialog.visible"
+        :title="dialog.title"
+        width="400px"
+        @close="closeDialog"
+      >
+        <el-form
+          ref="roleFormRef"
+          :model="formData"
+          :rules="rules"
+          label-width="100px"
+        >
+          <el-form-item label="创建者" prop="name">
+            <el-input
+              v-model="formData.creater"
+              placeholder="请输入角色名称"
+              :disabled="true"
+            />
+          </el-form-item>
+
+          <el-form-item label="用户信息" prop="user">
+            <el-input v-model="formData.user" placeholder="请输入角色编码" />
+          </el-form-item>
+
+          <el-form-item label="订单状态" prop="status">
+            <el-radio-group v-model="formData.status">
+              <el-radio :label="1">待付款</el-radio>
+              <el-radio :label="2">已付款</el-radio>
+              <el-radio :label="3">已取消</el-radio>
+              <el-radio :label="4">已完成</el-radio>
+            </el-radio-group>
+          </el-form-item>
+
+          <el-form-item label="创建时间" prop="createTime">
+            <el-date-picker
+              v-model="formData.createTime"
+              type="datetime"
+              placeholder="Select date and time"
+              :editable="false"
+              style="width: 100%"
+            />
+          </el-form-item>
+        </el-form>
+
+        <template #footer>
+          <div class="dialog-footer">
+            <el-button type="primary" @click="handleSubmit">确 定</el-button>
+            <el-button @click="closeDialog">取 消</el-button>
+          </div>
+        </template>
+      </el-dialog>
     </div>
   </div>
 </template>
