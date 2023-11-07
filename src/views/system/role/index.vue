@@ -128,6 +128,7 @@ function handleSubmit() {
 function closeDialog() {
   dialog.visible = false;
   resetForm();
+  console.log("dev");
 }
 
 /** 重置表单 */
